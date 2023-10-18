@@ -7,7 +7,7 @@ then
     exit 1
 fi
 
-EXISTING_PRS=$(gh api -X GET /repos/tradingview-pine-seeds/"$REPO_NAME"/pulls)
+EXISTING_PRS=$(gh api -X GET /repos/tradewithmadhan/"$REPO_NAME"/pulls)
 if [ "$EXISTING_PRS" != "[]" ]; then
     NUMBER_OF_PRS=$(echo "$EXISTING_PRS" | jq length)
     if [ "$NUMBER_OF_PRS" != 1 ]; then
@@ -15,7 +15,7 @@ if [ "$EXISTING_PRS" != "[]" ]; then
         exit 1
     fi
     BASE_LABEL=$(echo "$EXISTING_PRS" | jq -r ".[0].base.label")
-    if [ "$BASE_LABEL" != "tradingview-pine-seeds:master" ]; then
+    if [ "$BASE_LABEL" != "tradewithmadhan:master" ]; then
         echo "base = $BASE_LABEL is incorrect"
         exit 1
     fi
@@ -26,7 +26,7 @@ if [ "$EXISTING_PRS" != "[]" ]; then
         exit 1
     fi
     NUM=$(echo "$EXISTING_PRS" | jq -r ".[0].number")
-    gh --repo tradingview-pine-seeds/"$REPO_NAME" pr close "$NUM"
+    gh --repo tradewithmadhan/"$REPO_NAME" pr close "$NUM"
     BRANCH="${HEAD_LABEL#*:}"
     gh api -X DELETE "repos/${OWNER}/${REPO_NAME}/git/refs/heads/${BRANCH}"
 fi
